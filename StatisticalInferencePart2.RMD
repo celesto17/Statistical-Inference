@@ -1,0 +1,116 @@
+---
+title: "Statistical Inference - Week 4 Course Project - Part 2"
+author: "Sanjay Lonkar"
+date: "14 Jun 2018"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Basic Inferential Data Analysis
+
+## Overview
+
+This assignment is Part 2 of Statistical Inference - Week 4 course project.  Goal of this assignment is to perform basic inferencetial anlysis and draw fair conclustions:
+
+
+1. Load the ToothGrowth data and perform some basic exploratory data analysis
+
+
+2. Provide a basic summary of the data
+
+
+3. Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
+
+
+4. State your conclusions and the assumptions needed for your conclusions.
+
+### 1. Load the ToothGrowth data and perform some basic exploratory data analysis 
+
+```{r echo=TRUE}
+# Load necessary libraries
+library (ggplot2)
+library (dplyr)
+
+# Load ToothGrowth data set
+library (datasets)
+data (ToothGrowth)
+```
+
+### Some basic exploratory data analysis
+
+```{r echo=TRUE}
+head (ToothGrowth)
+```
+
+
+```{r echo=TRUE}
+tail (ToothGrowth)
+```
+
+
+```{r echo=TRUE}
+str (ToothGrowth)
+```
+
+```{r echo=TRUE}
+# Sample Size & Number of Rows and Columns of data frame
+length (ToothGrowth)
+# Number of Rows and Columns
+dim (ToothGrowth)
+```
+
+
+```{r echo=TRUE}
+# Boxplot graph of the tooth length vs the does
+p <- ggplot (ToothGrowth, aes (x = factor(dose), y = len, fill = factor(dose))) +
+  geom_boxplot () +
+  facet_grid (.~supp) +
+  labs (title = "Length of Tooth vs. Dose by for OJ & VC",
+       x = "Doses", y = "Length of Tooth")
+print (p)
+```
+
+### 2. Provide a basic summary of the data
+```{r echo=TRUE}
+summary (ToothGrowth)
+
+
+table (ToothGrowth$supp, ToothGrowth$dose)
+```
+
+
+### 3. Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
+
+```{r echo=TRUE}
+# Dose 0.5
+doseOJ0.5 <- ToothGrowth %>% filter (supp == "OJ" & dose == "0.5")
+doseVC0.5 <- ToothGrowth %>% filter (supp == "VC" & dose == "0.5")
+t.test(doseOJ0.5$len,doseVC0.5$len)
+
+# Dose 1
+doseOJ1 <- ToothGrowth %>% filter (supp == "OJ" & dose == "0.5")
+doseVC1 <- ToothGrowth %>% filter (supp == "VC" & dose == "0.5")
+t.test(doseOJ1$len,doseVC1$len)
+
+# Dose 2
+doseOJ2 <- ToothGrowth %>% filter (supp == "OJ" & dose == "0.5")
+doseVC2 <- ToothGrowth %>% filter (supp == "VC" & dose == "0.5")
+t.test(doseOJ2$len,doseVC2$len)
+```
+
+
+### 4. State your conclusions and the assumptions needed for your conclusions.
+> At 95% confidence assumption, we can have draw following conclusions:
+
+> 1. Dose 0.5 of OJ results in longer tooth than dose 0.5 of VC"
+
+> 2. Dose 1 of OJ results in longer tooth than dose 0.5 of VC"
+
+> 3. However, Dose 2 of OJ and VC result in almost similar tooth lenght"
